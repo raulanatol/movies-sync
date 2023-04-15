@@ -17,8 +17,6 @@ npm install @raulanatol/movies-sync
 | Trakt.tv | `TRAKT_CLIENT_ID` | Trakt.tv client id | https://trakt.docs.apiary.io/# |
 | Trakt.tv | `TRAKT_USER_ID`   | Trakt.tv user id   |                                |
 
-
-
 ## Usage
 
 ```js
