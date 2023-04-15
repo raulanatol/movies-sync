@@ -11,11 +11,20 @@ export const fromStringToDate = (date: string): Date => {
   return new Date(date);
 };
 
+const byWord = (wordToFilter: string) =>
+  (word: string) =>
+    word !== wordToFilter;
+
+const cleanupSlug = (slug: string, year: number): string =>
+  slug.split('-')
+    .filter(byWord(year.toString()))
+    .join('-');
+
 export const toMovie = (rawMovie: RawMovie): Movie =>
   new Movie({
     title: rawMovie.movie.title,
     year: rawMovie.movie.year,
-    slug: rawMovie.movie.ids.slug,
+    slug: cleanupSlug(rawMovie.movie.ids.slug, rawMovie.movie.year),
     media: {
       imdb: rawMovie.movie.ids.imdb,
       tmdb: rawMovie.movie.ids.tmdb,
@@ -39,7 +48,7 @@ export const toShow = (rawShow: RawShow): Show =>
     lastUpdatedAt: fromStringToDate(rawShow.last_updated_at),
     title: rawShow.show.title,
     year: rawShow.show.year,
-    slug: rawShow.show.ids.slug,
+    slug: cleanupSlug(rawShow.show.ids.slug, rawShow.show.year),
     media: {
       imdb: rawShow.show.ids.imdb,
       tmdb: rawShow.show.ids.tmdb,
