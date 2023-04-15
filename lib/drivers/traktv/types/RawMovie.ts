@@ -11,5 +11,5 @@ export interface RawMovie {
       imdb: string;
       tmdb: number;
     }
-  }
+  };
 }

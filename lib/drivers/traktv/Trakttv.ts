@@ -1,18 +1,21 @@
-import { Env } from '../../utils/Env';
 import { Movie } from '../../models/Movie';
-import { RawMovie } from './types';
 import { lastUpdatedAtAfter } from './filters';
-import { toMovie } from './parsers';
+import { toMovie, toShow } from './parsers';
+import { Show } from '../../models/Show';
+import { RawMovie } from './types/RawMovie';
+import { RawShow } from './types/RawShow';
+
+const baseURL = 'https://api.trakt.tv';
 
 export class Trakttv {
-  private clientId: string;
+  private readonly clientId: string;
+  private readonly userId: string;
+  private readonly lastSyncDate?: Date;
 
-  constructor(clientId?: string) {
-    const clientID = clientId || Env.get('TRAKT_CLIENT_ID');
-    if (!clientID) {
-      throw new Error('Trakt.tv client ID is required TRAKT_CLIENT_ID. See documentation for more info.');
-    }
-    this.clientId = clientID;
+  constructor(clientId: string, userId: string, lastSyncDate?: Date) {
+    this.clientId = clientId;
+    this.userId = userId;
+    this.lastSyncDate = lastSyncDate;
   }
 
   private doRequest<T>(url: string): Promise<T> {
@@ -31,11 +34,26 @@ export class Trakttv {
     });
   }
 
-  async getWatchedMovies(userId: string, lastSyncDate = new Date()): Promise<Movie[]> {
-    const rawMovies = await this.doRequest<RawMovie[]>(`https://api.trakt.tv/users/${userId}/watched/movies`);
+  async getWatchedMovies(): Promise<Movie[]> {
+    const rawMovies = await this.doRequest<RawMovie[]>(`${baseURL}/users/${this.userId}/watched/movies`);
+
+    if (!this.lastSyncDate) {
+      return rawMovies.map(toMovie);
+    }
 
     return rawMovies
-      .filter(lastUpdatedAtAfter(lastSyncDate))
+      .filter(lastUpdatedAtAfter(this.lastSyncDate))
       .map(toMovie);
+  }
+
+  async getWatchedShows(): Promise<Show[]> {
+    const rawShows = await this.doRequest<RawShow[]>(`${baseURL}/users/${this.userId}/watched/shows`);
+    if (!this.lastSyncDate) {
+      return rawShows.map(toShow);
+    }
+
+    return rawShows
+      .filter(lastUpdatedAtAfter(this.lastSyncDate))
+      .map(toShow);
   }
 }
