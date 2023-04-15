@@ -4,7 +4,6 @@ import { toMovie, toShow } from './parsers';
 import { Show } from '../../models/Show';
 import { RawMovie } from './types/RawMovie';
 import { RawShow } from './types/RawShow';
-import { ResponseList } from '../../models/ResponseList';
 
 const baseURL = 'https://api.trakt.tv';
 
@@ -35,28 +34,26 @@ export class Trakttv {
     });
   }
 
-  async getWatchedMovies(): Promise<ResponseList<Movie>> {
+  async getWatchedMovies(): Promise<Movie[]> {
     const rawMovies = await this.doRequest<RawMovie[]>(`${baseURL}/users/${this.userId}/watched/movies`);
 
     if (!this.lastSyncDate) {
-      return ResponseList.from(rawMovies.map(toMovie));
+      return rawMovies.map(toMovie);
     }
 
-    return ResponseList.from(
-      rawMovies
-        .filter(lastUpdatedAtAfter(this.lastSyncDate))
-        .map(toMovie));
+    return rawMovies
+      .filter(lastUpdatedAtAfter(this.lastSyncDate))
+      .map(toMovie);
   }
 
-  async getWatchedShows(): Promise<ResponseList<Show>> {
+  async getWatchedShows(): Promise<Show[]> {
     const rawShows = await this.doRequest<RawShow[]>(`${baseURL}/users/${this.userId}/watched/shows`);
     if (!this.lastSyncDate) {
-      return ResponseList.from(rawShows.map(toShow));
+      return rawShows.map(toShow);
     }
 
-    return ResponseList.from(
-      rawShows
-        .filter(lastUpdatedAtAfter(this.lastSyncDate))
-        .map(toShow));
+    return rawShows
+      .filter(lastUpdatedAtAfter(this.lastSyncDate))
+      .map(toShow);
   }
 }

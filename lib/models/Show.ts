@@ -1,6 +1,3 @@
-import { Model } from './Model';
-import { fromDateToString } from '../drivers/traktv/parsers';
-
 interface Media {
   imdb?: string;
   tmdb?: number;
@@ -27,7 +24,7 @@ interface ConstructorParams {
   seasons: Season[];
 }
 
-export class Show implements Model {
+export class Show {
   lastUpdatedAt: Date;
   lastWatchedAt: Date;
   slug: string;
@@ -44,31 +41,5 @@ export class Show implements Model {
     this.lastUpdatedAt = params.lastUpdatedAt;
     this.media = params.media;
     this.seasons = params.seasons;
-  }
-
-  toJSON(): object {
-    return {
-      title: this.title,
-      year: this.year,
-      slug: this.slug,
-      lastWatchedAt: fromDateToString(this.lastWatchedAt),
-      lastUpdatedAt: fromDateToString(this.lastUpdatedAt),
-      media: {
-        imdb: this.media.imdb,
-        tmdb: this.media.tmdb,
-        trakt: this.media.trakt
-      },
-      seasons: this.seasons.map(season => ({
-        number: season.number,
-        episodes: season.episodes?.map(episode => ({
-          number: episode.number,
-          plays: episode.plays
-        }))
-      }))
-    };
-  }
-
-  toMarkdown(): string {
-    return `# ${this.title} (${this.year})`;
   }
 }
