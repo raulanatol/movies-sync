@@ -1,6 +1,6 @@
 {
   "name": "@raulanatol/movies-sync",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Sync movies from external APIs to your local database",
   "keywords": [
     "movies",
