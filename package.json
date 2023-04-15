@@ -2,13 +2,28 @@
   "name": "@raulanatol/movies-sync",
   "version": "0.0.0",
   "type": "module",
+  "files": [
+    "dist"
+  ],
+  "main": "dist/movies-sync.umd.js",
+  "module": "dist/movies-sync.js",
+  "exports": {
+    ".": {
+      "import": "./dist/movies-sync.js",
+      "require": "./dist/movies-sync.umd.js"
+    }
+  },
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview"
   },
   "devDependencies": {
+    "@types/node": "18.15.11",
     "typescript": "4.9.3",
     "vite": "4.2.0"
+  },
+  "dependencies": {
+    "dotenv": "16.0.3"
   }
 }
