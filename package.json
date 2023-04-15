@@ -33,8 +33,12 @@
   ],
   "scripts": {
     "build": "tsc && vite build",
+    "clean": "rm -rf dist",
     "dev": "vite",
-    "preview": "vite preview"
+    "lint": "eslint --max-warnings 0 . --ext .ts",
+    "preview": "vite preview",
+    "test": "echo \"Tests here\"",
+    "type-check": "tsc --pretty --noEmit"
   },
   "dependencies": {
     "dotenv": "16.0.3"

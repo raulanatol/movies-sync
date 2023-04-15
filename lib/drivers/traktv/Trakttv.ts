@@ -1,8 +1,8 @@
-import {Env} from "../../utils/Env";
-import {Movie} from "../../models/Movie";
-import {RawMovie} from "./types";
-import {lastUpdatedAtAfter} from "./filters";
-import {toMovie} from "./parsers";
+import { Env } from '../../utils/Env';
+import { Movie } from '../../models/Movie';
+import { RawMovie } from './types';
+import { lastUpdatedAtAfter } from './filters';
+import { toMovie } from './parsers';
 
 export class Trakttv {
   private clientId: string;
@@ -28,7 +28,7 @@ export class Trakttv {
         .then(response => response.json())
         .then(data => resolve(data))
         .catch(error => reject(error));
-    })
+    });
   }
 
   async getWatchedMovies(userId: string, lastSyncDate = new Date()): Promise<Movie[]> {
