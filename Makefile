@@ -6,7 +6,7 @@ init:
 
 test:
 	@echo "Testing..."
-	@npm run test
+	@npm run test-ci
 
 clean:
 	@echo "🛁 Cleaning..."

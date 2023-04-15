@@ -44,6 +44,7 @@
     "lint": "eslint --max-warnings 0 . --ext .ts",
     "preview": "vite preview",
     "test": "vitest",
+    "test-ci": "CI=true vitest",
     "type-check": "tsc --pretty --noEmit"
   },
   "type": "module",
