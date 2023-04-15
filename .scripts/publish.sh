@@ -7,37 +7,55 @@ error() {
   exit 1
 }
 
-if [ $# != 1 ]; then
-  error "Please specify name of version update (ie patch) patch|minor|major"
-fi
-
-VERSION_PARAM=$1
-BRANCH=$(git rev-parse --abbrev-ref HEAD)
-
-change_version() {
-  NEW_VERSION=$(npm version "${VERSION_PARAM}")
-  echo "::set-output name=tagName::${NEW_VERSION}"
+is_valid_version() {
+  case $1 in
+  patch) ;;
+  minor) ;;
+  major) ;;
+  *) error "🚨 Invalid version >> $1" ;;
+  esac
 }
 
-verify_main_branch() {
-  if [ ${BRANCH} != 'main' ]; then
-    error "Invalid branch name ${BRANCH}"
-  fi
-}
-
-verify_uncommitted_changes() {
-  if [ -n "$(git status --porcelain)" ]; then
-    git status
-    error "There are uncommitted changes in the working tree."
+assert_ready_to_publish() {
+  is_valid_version "$1"
+  if [ ! -d dist ]; then
+    error "Need build first"
   fi
 }
 
 publish() {
+  echo "Publish $1"
+  npm version "$1"
   npm publish --access public
-  git push --tags
 }
 
-verify_uncommitted_changes
-verify_main_branch
-change_version
-publish
+NEW_VERSION=$1
+
+if [ -z "$NEW_VERSION" ]; then
+  while true; do
+    echo "Specify an version increase (patch minor major) "
+    read -r answer
+    case $answer in
+    patch)
+      NEW_VERSION="patch"
+      break
+      ;;
+    minor)
+      NEW_VERSION="minor"
+      break
+      ;;
+    major)
+      NEW_VERSION="major"
+      break
+      ;;
+    *)
+      echo "Only patch minor or major, please."
+      ;;
+    esac
+  done
+fi
+
+assert_ready_to_publish $NEW_VERSION
+publish $NEW_VERSION
+git push --all
+git push --tags
