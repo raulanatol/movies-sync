@@ -1,6 +1,6 @@
 import { Trakttv } from './drivers/traktv/Trakttv';
 
-interface APIConfig {
+export interface APIConfig {
   lastSyncDate?: Date;
   trakttv?: {
     clientId: string;
