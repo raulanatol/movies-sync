@@ -26,12 +26,9 @@
       "require": "./dist/movies-sync.umd.js"
     }
   },
-  "main": "dist/movies-sync.umd.js",
-  "module": "dist/movies-sync.js",
-  "types": "dist/main.d.ts",
-  "files": [
-    "dist"
-  ],
+  "main": "./dist/movies-sync.umd.js",
+  "module": "./dist/movies-sync.js",
+  "types": "./dist/main.d.ts",
   "scripts": {
     "build": "tsc && vite build",
     "clean": "rm -rf dist",
