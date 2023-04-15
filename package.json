@@ -1,7 +1,30 @@
 {
-  "name": "@raulanatol/movies-sync",
-  "version": "0.0.2",
+  "bugs": {
+    "url": "https://github.com/raulanatol/movies-sync/issues"
+  },
   "description": "Sync movies from external APIs to your local database",
+  "devDependencies": {
+    "@cowcoders/eslint-config": "2.0.0",
+    "@types/node": "18.15.11",
+    "typescript": "4.9.3",
+    "vite": "4.2.0",
+    "vite-plugin-dts": "2.2.0"
+  },
+  "engineStrict": true,
+  "engines": {
+    "node": "=v18.16.0",
+    "npm": "=9.5.1"
+  },
+  "exports": {
+    ".": {
+      "import": "./dist/movies-sync.js",
+      "require": "./dist/movies-sync.umd.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "homepage": "https://github.com/raulanatol/movies-sync#readme",
   "keywords": [
     "movies",
     "sync",
@@ -10,28 +33,14 @@
     "tmdb",
     "imdb"
   ],
-  "homepage": "https://github.com/raulanatol/movies-sync#readme",
-  "bugs": {
-    "url": "https://github.com/raulanatol/movies-sync/issues"
-  },
+  "license": "ISC",
+  "main": "./dist/movies-sync.umd.js",
+  "module": "./dist/movies-sync.js",
+  "name": "@raulanatol/movies-sync",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/raulanatol/movies-sync.git"
   },
-  "license": "ISC",
-  "type": "module",
-  "exports": {
-    ".": {
-      "import": "./dist/movies-sync.js",
-      "require": "./dist/movies-sync.umd.js"
-    }
-  },
-  "main": "./dist/movies-sync.umd.js",
-  "module": "./dist/movies-sync.js",
-  "types": "./dist/main.d.ts",
-  "files": [
-    "dist"
-  ],
   "scripts": {
     "build": "tsc && vite build",
     "clean": "rm -rf dist",
@@ -41,16 +50,7 @@
     "test": "echo \"Tests here\"",
     "type-check": "tsc --pretty --noEmit"
   },
-  "devDependencies": {
-    "@cowcoders/eslint-config": "^2.0.0",
-    "@types/node": "18.15.11",
-    "typescript": "4.9.3",
-    "vite": "4.2.0",
-    "vite-plugin-dts": "^2.2.0"
-  },
-  "engines": {
-    "node": "=v18.16.0",
-    "npm": "=9.5.1"
-  },
-  "engineStrict": true
+  "type": "module",
+  "types": "./dist/main.d.ts",
+  "version": "0.0.2"
 }
